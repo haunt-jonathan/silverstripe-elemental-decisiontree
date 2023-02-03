@@ -1,5 +1,5 @@
 {
-  "name": "haunt-jonathan/silverstripe-elemental-decisiontree",
+  "name": "dnadesign/silverstripe-elemental-decisiontree",
   "description": "Element displaying information in regards to answers given to questions",
   "type": "silverstripe-vendormodule",
   "keywords": ["silverstripe", "element", "elemental", "decision tree"],
