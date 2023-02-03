@@ -9,4 +9,4 @@
 	</div>
 </div>
 
-<% require javascript("dnadesign/silverstripe-elemental-decisiontree:javascript/decision-tree.src.js") %>
+<% require javascript("haunt-jonathan/silverstripe-elemental-decisiontree:javascript/decision-tree.src.js") %>
