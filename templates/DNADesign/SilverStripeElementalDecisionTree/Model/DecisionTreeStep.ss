@@ -1,6 +1,6 @@
 <% if $Step.Type == 'Question' %>
 <div class="step<% if $FirstStep.ID == $Step.ID %> step--first<% end_if %>">
-	<form action="$Controller.Link('getNextStepForAnswer')" method="post" class="step-form">
+	<form action="$Controller.Link('getNextStepForAnswer/')" method="post" class="step-form">
 		<% with $Step %>
 		<fieldset>
 			<legend class="step-legend <% if $Content %>step-legend--withcontent<% end_if %>">
