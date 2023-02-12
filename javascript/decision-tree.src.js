@@ -57,7 +57,9 @@
                     }, 100);
 
                     let url = form.getAttribute('action');
-                    url = url.substr(0, url.indexOf('#'));
+                    if (url.indexOf('#') > 0) {
+                        url = url.substr(0, url.indexOf('#'));
+                    }
                     let xhr = new XMLHttpRequest();
                     params = serialize(new FormData(form));
                     url = (url.indexOf("?") > 0) ? url + "&" + params : url + "?" + params;
