@@ -1,11 +1,7 @@
 (function() {
 
     const serialize = function(formData) {
-        let str = Array.from(formData).map(entry => entry.map(encodeURIComponent).join("=")).join("&");
-        if (str) {
-            str += "&ajax=1";
-        }
-        return str;
+        return Array.from(formData).map(entry => entry.map(encodeURIComponent).join("=")).join("&");
     }
 
     const scrollTree = function(tree) {
@@ -60,16 +56,13 @@
                         nextstep_holder.classList.add('loading');
                     }, 100);
 
-                    let url = form.getAttribute('action').split('?');
-                    if (url.length > 1) {
-                        url = url[0];
-                    }
-                    url += '/?ajax=1';
+                    let url = form.getAttribute('action');
+                    url = url.substr(0, url.indexOf('#'));
                     let xhr = new XMLHttpRequest();
-                    xhr.open('POST', url, true);
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    params = serialize(new FormData(form));
+                    url = (url.indexOf("?") > 0) ? url + "&" + params : url + "?" + params;
+                    xhr.open('GET', url);
                     xhr.responseType = 'json';
-                    xhr.send(serialize(new FormData(form)));
                     xhr.onload = function() {
                         if (xhr.status === 200) {
                             var data = xhr.response;
@@ -80,6 +73,7 @@
                             nextstep_holder.innerHTML = xhr.responseText;
                         }
                     };
+                    xhr.send();
                 }
             }
         );

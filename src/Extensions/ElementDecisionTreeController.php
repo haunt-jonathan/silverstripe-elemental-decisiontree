@@ -20,12 +20,12 @@ class ElementDecisionTreeController extends Extension
     * as well as the updated URL which includes the ids of the answers
     * leading to this next step to be returned
     *
-    * @param stepanswerid (POST)
+    * @param stepanswerid (GET)
     * @return json
     */
     public function getNextStepForAnswer()
     {
-        $answerID = $this->owner->getRequest()->postVar('stepanswerid');
+        $answerID = $this->owner->getRequest()->getVar('stepanswerid');
 
         if (!$answerID) {
             return $this->owner->httpError(404, 'No answer ID found.');
@@ -60,16 +60,12 @@ class ElementDecisionTreeController extends Extension
             $this->owner->AbsoluteLink(), '?decisionpathway='.implode(',', $pathway)
         );
 
-        if ($this->owner->getRequest()->isAjax()) {
-            $data = [
-                'html' => $html->forTemplate(),
-                'nexturl' => $nextURL
-            ];
+        $data = [
+            'html' => $html->forTemplate(),
+            'nexturl' => $nextURL
+        ];
 
-            return json_encode($data);
-        }
-
-        return $html;
+        return json_encode($data);
     }
 
     /**
