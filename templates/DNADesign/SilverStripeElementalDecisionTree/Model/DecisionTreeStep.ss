@@ -22,13 +22,12 @@
 			<% end_if %>
 		</fieldset>
 		<% end_with %>
+		<div class="nextstep" aria-live="polite">
+			<% if $Controller.getNextStepFromSelectedAnswer($Step.ID) %>
+				<% include DecisionTreeStep Step=$Controller.getNextStepFromSelectedAnswer($Step.ID), Controller=$Controller %>
+			<% end_if %>
+		</div>
 	</form>
-
-	<div class="nextstep" aria-live="polite">
-		<% if $Controller.getNextStepFromSelectedAnswer($Step.ID) %>
-			<% include DecisionTreeStep Step=$Controller.getNextStepFromSelectedAnswer($Step.ID), Controller=$Controller %>
-		<% end_if %>
-	</div>
 </div>
 <% else %>
 <div class="step step--result" aria-live="polite">

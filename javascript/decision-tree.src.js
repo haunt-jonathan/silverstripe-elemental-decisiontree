@@ -45,10 +45,10 @@
         */
         
         document.addEventListener('change', function(ev) {
-            var inputs = document.querySelectorAll('input[name=stepanswerid]');
+            var inputs = document.querySelectorAll('form input[name=stepanswerid]');
             if (Array.from(inputs).indexOf(ev.target) >= 0) {
                 var form = ev.target.closest('form'),
-                    step = form.closest('.step'),
+                    step = ev.target.closest('.step'),
                     nextstep_holder = step.querySelector('.nextstep');
 
                     nextstep_holder.innerHTML = '<div class="spinner-holder"><div class="spinner"><span class="sr-only">loading</span></div></div>';
