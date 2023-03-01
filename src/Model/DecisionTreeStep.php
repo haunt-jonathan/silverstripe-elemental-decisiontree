@@ -365,6 +365,10 @@ class DecisionTreeStep extends DataObject
         }
     }
 
+    public function getShowStepNumbers() {
+        return $this->ParentElement()->ShowStepNumbers;
+    }
+
     /**
     * Build url to allow to edit this object
     *

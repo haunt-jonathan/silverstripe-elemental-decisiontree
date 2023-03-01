@@ -5,7 +5,7 @@
 		<fieldset>
 			<legend class="step-legend <% if $Content %>step-legend--withcontent<% end_if %>">
 				<span class="step-title">
-					<span class="step-number">{$PositionInPathway}.</span>
+					<% if $ShowStepNumbers %><span class="step-number">{$PositionInPathway}.</span><% end_if %>
 					<span class="step-title-inner">$Title</span>
 				</span>
 				<% if $Content %><span class="step-content">$Content</span><% end_if %>
