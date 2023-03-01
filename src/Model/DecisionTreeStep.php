@@ -366,7 +366,9 @@ class DecisionTreeStep extends DataObject
     }
 
     public function getShowStepNumbers() {
-        return $this->ParentElement()->ShowStepNumbers;
+        $pathway = array_reverse($this->getQuestionPathway());
+        $first_step = DecisionTreeStep::get()->byID($pathway[0]);
+        return $first_step->ParentElement()->ShowStepNumbers;
     }
 
     /**
