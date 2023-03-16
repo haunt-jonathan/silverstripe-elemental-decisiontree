@@ -23,7 +23,7 @@ class ElementDecisionTreeController extends Extension
     * @param stepanswerid (GET)
     * @return json
     */
-    public function getNextStepForAnswer()
+    public function getNextStepForAnswer($stepanswerid)
     {
         $answerID = $this->owner->getRequest()->getVar('stepanswerid');
 

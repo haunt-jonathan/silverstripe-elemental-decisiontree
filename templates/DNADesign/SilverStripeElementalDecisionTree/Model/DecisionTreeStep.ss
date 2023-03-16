@@ -5,7 +5,7 @@
 		<fieldset>
 			<legend class="step-legend <% if $Content %>step-legend--withcontent<% end_if %>">
 				<span class="step-title">
-					<% if $ShowStepNumbers %><span class="step-number">{$PositionInPathway}.</span><% end_if %>
+					<span class="step-number">{$PositionInPathway}.</span>
 					<span class="step-title-inner">$Title</span>
 				</span>
 				<% if $Content %><span class="step-content">$Content</span><% end_if %>
@@ -14,7 +14,7 @@
 				<ul class="optionset step-options">
 				<% loop $Answers %>
 					<li>
-						<input id="$ID" class="radio step-option" name="stepanswerid" type="radio" value="$ID"<% if $Top.Controller.getIsAnswerSelected($ID) %> checked<% end_if %> />
+						<input id="$ID" class="radio step-option" name="stepanswerid{$Question.ID}" type="radio" value="$ID"<% if $Top.Controller.getIsAnswerSelected($ID) %> checked<% end_if %> />
 						<label for="$ID">$Title</label>
 					</li>
 				<% end_loop %>
@@ -22,12 +22,13 @@
 			<% end_if %>
 		</fieldset>
 		<% end_with %>
-		<div class="nextstep" aria-live="polite">
-			<% if $Controller.getNextStepFromSelectedAnswer($Step.ID) %>
-				<% include DecisionTreeStep Step=$Controller.getNextStepFromSelectedAnswer($Step.ID), Controller=$Controller %>
-			<% end_if %>
-		</div>
 	</form>
+
+	<div class="nextstep" aria-live="polite">
+		<% if $Controller.getNextStepFromSelectedAnswer($Step.ID) %>
+			<% include DecisionTreeStep Step=$Controller.getNextStepFromSelectedAnswer($Step.ID), Controller=$Controller %>
+		<% end_if %>
+	</div>
 </div>
 <% else %>
 <div class="step step--result" aria-live="polite">

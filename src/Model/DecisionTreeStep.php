@@ -162,7 +162,7 @@ class DecisionTreeStep extends DataObject
             $source[$answer->ID] = $answer->Title;
         }
 
-        return OptionsetField::create('stepanswerid', '', $source)->addExtraClass('decisiontree-option');
+        return OptionsetField::create('stepanswerid'.$this->ID, '', $source)->addExtraClass('decisiontree-option');
     }
 
     /**
@@ -363,12 +363,6 @@ class DecisionTreeStep extends DataObject
                 return $url;
             }
         }
-    }
-
-    public function getShowStepNumbers() {
-        $pathway = array_reverse($this->getQuestionPathway());
-        $first_step = DecisionTreeStep::get()->byID($pathway[0]);
-        return $first_step->ParentElement()->ShowStepNumbers;
     }
 
     /**

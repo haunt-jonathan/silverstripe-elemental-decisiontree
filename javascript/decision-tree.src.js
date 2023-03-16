@@ -1,7 +1,12 @@
 (function() {
 
     const serialize = function(formData) {
-        return Array.from(formData).map(entry => entry.map(encodeURIComponent).join("=")).join("&");
+        return Array.from(formData).map(entry => {
+            if (/^stepanswerid/.test(entry[0])) {
+                entry[0] = "stepanswerid";
+            }
+            return entry.map(encodeURIComponent).join("=");
+        }).join("&");
     }
 
     const scrollTree = function(tree) {
@@ -45,10 +50,10 @@
         */
         
         document.addEventListener('change', function(ev) {
-            var inputs = document.querySelectorAll('form input[name=stepanswerid]');
+            var inputs = document.querySelectorAll('input.radio.step-option');
             if (Array.from(inputs).indexOf(ev.target) >= 0) {
                 var form = ev.target.closest('form'),
-                    step = ev.target.closest('.step'),
+                    step = form.closest('.step'),
                     nextstep_holder = step.querySelector('.nextstep');
 
                     nextstep_holder.innerHTML = '<div class="spinner-holder"><div class="spinner"><span class="sr-only">loading</span></div></div>';

@@ -3,7 +3,6 @@
 namespace DNADesign\SilverStripeElementalDecisionTree\Model;
 
 use DNADesign\Elemental\Models\BaseElement;
-use SilverStripe\Forms\CheckboxField;
 use DNADesign\SilverStripeElementalDecisionTree\Forms\HasOneSelectOrCreateField;
 use DNADesign\SilverStripeElementalDecisionTree\Forms\DecisionTreeStepPreview;
 use SilverStripe\Control\Controller;
@@ -20,8 +19,7 @@ class ElementDecisionTree extends BaseElement
     private static $icon = 'font-icon-flow-tree';
 
     private static $db = [
-        'Introduction' => 'HTMLText',
-        'ShowStepNumbers' => 'Boolean',
+        'Introduction' => 'HTMLText'
     ];
 
     private static $has_one = [
@@ -43,8 +41,6 @@ class ElementDecisionTree extends BaseElement
 
         $introduction = $fields->dataFieldByName('Introduction');
         $introduction->setRows(4);
-
-        $fields->addFieldToTab('Root.Main', CheckboxField::create('ShowStepNumbers', 'Display decision step numbers?'));
 
         $fields->removeByName('FirstStepID');
         $stepSelector = HasOneSelectOrCreateField::create(
