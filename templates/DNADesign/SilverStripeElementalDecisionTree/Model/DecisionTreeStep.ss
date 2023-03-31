@@ -34,10 +34,17 @@
 <div class="step step--result" aria-live="polite">
 	<% with $Step %>
 		<% if $Title && not $HideTitle %><div class="step-title">$Title</div><% end_if %>
-		<div class="step-content">
-			<% if $Content %>$Content<% end_if %>
-			<button type="button" class="step-button" data-action="restart-tree" data-target="$Top.Controller.ParentController.Link">Start again?</button>
-		</div>
+		<% if $Type == 'Predefined Outcome' %>
+			<div class="step-content">
+				$Outcome.Content
+				<button type="button" class="step-button" data-action="restart-tree" data-target="$Top.Controller.ParentController.Link">Start again?</button>
+			</div>
+		<% else %>
+			<div class="step-content">
+				<% if $Content %>$Content<% end_if %>
+				<button type="button" class="step-button" data-action="restart-tree" data-target="$Top.Controller.ParentController.Link">Start again?</button>
+			</div>
+		<% end_if %>
 	<% end_with %>
 </div>
 <% end_if %>

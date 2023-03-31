@@ -7,6 +7,7 @@ use SilverStripe\Forms\CheckboxField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\Control\Controller;
+use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\ReadOnlyField;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\OptionsetField;
@@ -14,14 +15,19 @@ use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use UncleCheese\DisplayLogic\Forms\Wrapper as DisplayLogicWrapper;
 use DNADesign\SilverStripeElementalDecisionTree\Forms\DecisionTreeStepPreview;
+use DNADesign\SilverStripeElementalDecisionTree\Model\DecisionTreeOutcome;
 
 class DecisionTreeStep extends DataObject
 {
     private static $db = [
         'Title' => 'Varchar(255)',
-        'Type' => "Enum('Question, Result')",
+        'Type' => "Enum('Question, Result, Predefined Outcome')",
         'Content' => 'HTMLText',
         'HideTitle' => 'Boolean'
+    ];
+
+    private static $has_one = [
+        'Outcome' => DecisionTreeOutcome::class
     ];
 
     private static $has_many = [
@@ -56,6 +62,7 @@ class DecisionTreeStep extends DataObject
 
         $content = $fields->dataFieldByname('Content');
         $content->setRows(4);
+        $content->displayUnless('Type')->isEqualTo('Predefined Outcome')->end();
 
         $fields->removeByName('Answers');
 
@@ -63,7 +70,7 @@ class DecisionTreeStep extends DataObject
 
         // Allow to hide the title only on Result
         $hideTitle = CheckboxField::create('HideTitle', 'Hide title');
-        $hideTitle->displayIf('Type')->isEqualTo('Result')->end();
+        $hideTitle->displayUnless('Type')->isEqualTo('Question')->end();
         $fields->insertAfter($hideTitle, 'Type');
 
         if ($this->IsInDB()) {
@@ -83,12 +90,16 @@ class DecisionTreeStep extends DataObject
                 $answerConfig
             );
 
-            $fields->addFieldTotab('Root.Main', DisplayLogicWrapper::create($answerGrid)->displayUnless('Type')->isEqualTo('Result')->end());
+            $fields->addFieldTotab('Root.Main', DisplayLogicWrapper::create($answerGrid)->displayIf('Type')->isEqualTo('Question')->end());
 
             // Add Tree Preview
             // Note: cannot add it if the object is not in DB
             $fields->addFieldToTab('Root.Tree', DecisionTreeStepPreview::create('Tree', $this->getTreeOrigin()));
         }
+
+        $outcomes = DecisionTreeOutcome::get()->sort('Title')->map('ID', 'Title')->toArray();
+        $outcome_options = DropdownField::create('OutcomeID', 'Outcome', $outcomes, $this->OutcomeID)->displayIf('Type')->isEqualTo('Predefined Outcome')->end();
+        $fields->insertAfter($outcome_options, 'Type');
 
         return $fields;
     }
